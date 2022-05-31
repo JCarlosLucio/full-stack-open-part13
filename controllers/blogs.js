@@ -10,12 +10,8 @@ router.get('/', async (req, res) => {
 
 /** POST /api/blogs - Add a new blog */
 router.post('/', async (req, res) => {
-  try {
-    const blog = await Blog.create(req.body);
-    res.json(blog);
-  } catch (error) {
-    return res.status(400).json({ error });
-  }
+  const blog = await Blog.create(req.body);
+  res.json(blog);
 });
 
 const blogFinder = async (req, res, next) => {
@@ -27,10 +23,8 @@ const blogFinder = async (req, res, next) => {
 router.delete('/:id', blogFinder, async (req, res) => {
   if (req.blog) {
     await req.blog.destroy();
-    res.status(204).end();
-  } else {
-    res.status(404).end();
   }
+  res.status(204).end();
 });
 
 /** PUT /api/blogs/:id - Update a blog number of likes*/
