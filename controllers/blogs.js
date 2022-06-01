@@ -1,6 +1,7 @@
 const router = require('express').Router();
 
-const { Blog } = require('../models');
+const { Blog, User } = require('../models');
+const { tokenExtractor } = require('../util/middleware');
 
 /** GET /api/blogs - List all blogs */
 router.get('/', async (req, res) => {
@@ -9,8 +10,10 @@ router.get('/', async (req, res) => {
 });
 
 /** POST /api/blogs - Add a new blog */
-router.post('/', async (req, res) => {
-  const blog = await Blog.create(req.body);
+router.post('/', tokenExtractor, async (req, res) => {
+  const user = await User.findByPk(req.decodedToken.id);
+
+  const blog = await Blog.create({ ...req.body, userId: user.id });
   res.json(blog);
 });
 
