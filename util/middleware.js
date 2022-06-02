@@ -1,4 +1,6 @@
 const jwt = require('jsonwebtoken');
+
+const { User, Blog } = require('../models');
 const { SECRET } = require('./config');
 
 const errorHandler = (error, req, res, next) => {
@@ -15,6 +17,11 @@ const errorHandler = (error, req, res, next) => {
   next(error);
 };
 
+const blogFinder = async (req, res, next) => {
+  req.blog = await Blog.findByPk(req.params.id);
+  next();
+};
+
 const tokenExtractor = (req, res, next) => {
   const authorization = req.get('authorization');
 
@@ -26,4 +33,9 @@ const tokenExtractor = (req, res, next) => {
   next();
 };
 
-module.exports = { errorHandler, tokenExtractor };
+const userExtractor = async (req, res, next) => {
+  req.user = await User.findByPk(req.decodedToken.id);
+  next();
+};
+
+module.exports = { errorHandler, blogFinder, tokenExtractor, userExtractor };
