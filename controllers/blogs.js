@@ -11,11 +11,11 @@ const {
 /** GET /api/blogs - List all blogs */
 router.get('/', async (req, res) => {
   const where = {};
+  const searchFilter = { [Op.iLike]: `%${req.query.search}%` }; // case-insensitive filter
 
   if (req.query.search) {
-    where.title = {
-      [Op.iLike]: `%${req.query.search}%`, // for case-insensitive filter
-    };
+    // for using search filter in title or author
+    where[Op.or] = [{ title: searchFilter }, { author: searchFilter }];
   }
 
   const blogs = await Blog.findAll({
