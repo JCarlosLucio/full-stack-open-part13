@@ -29,7 +29,7 @@ Blog.init(
   {
     sequelize,
     underscored: true,
-    timestamps: false,
+    timestamps: true, // is the default behavior (so it could be omitted)
     modelName: 'blog',
   }
 );
