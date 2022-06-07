@@ -4,6 +4,8 @@ const authorRouter = require('./controllers/authors');
 const blogRouter = require('./controllers/blogs');
 const loginRouter = require('./controllers/login');
 const userRouter = require('./controllers/users');
+const readinglistsRouter = require('./controllers/reading_lists');
+
 const app = express();
 
 const { PORT } = require('./util/config');
@@ -16,6 +18,7 @@ app.use('/api/authors', authorRouter);
 app.use('/api/blogs', blogRouter);
 app.use('/api/users', userRouter);
 app.use('/api/login', loginRouter);
+app.use('/api/readinglists', readinglistsRouter);
 
 app.use(middleware.errorHandler);
 

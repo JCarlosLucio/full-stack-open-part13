@@ -42,4 +42,22 @@ router.put('/:username', async (req, res) => {
   }
 });
 
+/** GET /api/users/:id - Get a user */
+router.get('/:id', async (req, res) => {
+  const user = await User.findByPk(req.params.id, {
+    attributes: { exclude: ['id', 'createdAt', 'updatedAt'] },
+    include: [
+      {
+        model: Blog,
+        as: 'readings',
+        attributes: { exclude: ['userId', 'createdAt', 'updatedAt'] },
+        through: {
+          attributes: [],
+        },
+      },
+    ],
+  });
+  res.json(user);
+});
+
 module.exports = router;
