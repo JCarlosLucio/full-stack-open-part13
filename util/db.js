@@ -30,9 +30,16 @@ const runMigrations = async () => {
 };
 
 const rollbackMigration = async () => {
-  await sequelize.authenticate();
-  const migrator = new Umzug(migrationsConf);
-  await migrator.down();
+  try {
+    await sequelize.authenticate();
+    const migrator = new Umzug(migrationsConf);
+    await migrator.down();
+    process.exit(0);
+  } catch (error) {
+    console.log('Migration rollback failed');
+    console.log(error);
+    process.exit(1);
+  }
 };
 
 const connectToDatabase = async () => {
