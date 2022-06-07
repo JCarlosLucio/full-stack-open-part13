@@ -1,7 +1,7 @@
 const bcrypt = require('bcrypt');
 const router = require('express').Router();
 
-const { User, Blog } = require('../models');
+const { User, Blog, ReadingList } = require('../models');
 
 /** GET /api/users - List all users */
 router.get('/', async (req, res) => {
@@ -54,6 +54,12 @@ router.get('/:id', async (req, res) => {
         through: {
           attributes: [],
         },
+        include: [
+          {
+            model: ReadingList,
+            attributes: ['read', 'id'],
+          },
+        ],
       },
     ],
   });
