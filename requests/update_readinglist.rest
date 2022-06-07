@@ -1,0 +1,7 @@
+PUT http://localhost:3001/api/readinglists/3
+Content-Type: application/json
+Authorization: Bearer <TOKEN>
+
+{
+  "read": true
+}
