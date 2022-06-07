@@ -43,7 +43,14 @@ router.put('/:username', async (req, res) => {
 });
 
 /** GET /api/users/:id - Get a user */
+/** GET /api/users/:id?read=true or false - Get a user with blogs in reading list that have been read or not read*/
 router.get('/:id', async (req, res) => {
+  const where = {};
+
+  if (req.query.read) {
+    where.read = req.query.read;
+  }
+
   const user = await User.findByPk(req.params.id, {
     attributes: { exclude: ['id', 'createdAt', 'updatedAt'] },
     include: [
@@ -58,6 +65,7 @@ router.get('/:id', async (req, res) => {
           {
             model: ReadingList,
             attributes: ['read', 'id'],
+            where,
           },
         ],
       },
