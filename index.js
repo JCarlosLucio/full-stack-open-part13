@@ -3,6 +3,7 @@ require('express-async-errors');
 const authorRouter = require('./controllers/authors');
 const blogRouter = require('./controllers/blogs');
 const loginRouter = require('./controllers/login');
+const logoutRouter = require('./controllers/logout');
 const userRouter = require('./controllers/users');
 const readinglistsRouter = require('./controllers/reading_lists');
 
@@ -18,6 +19,7 @@ app.use('/api/authors', authorRouter);
 app.use('/api/blogs', blogRouter);
 app.use('/api/users', userRouter);
 app.use('/api/login', loginRouter);
+app.use('/api/logout', logoutRouter);
 app.use('/api/readinglists', readinglistsRouter);
 
 app.use(middleware.errorHandler);
